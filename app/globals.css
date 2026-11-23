@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply overflow-x-clip bg-white font-sans text-navy-800 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading tracking-tight text-navy;
+  }
+  ::selection {
+    @apply bg-brand text-white;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2;
+  }
+}
+
+@layer components {
+  .section {
+    @apply relative py-20 sm:py-24 lg:py-32;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-[0.18em] text-brand;
+  }
+  .text-gradient {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+  }
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 font-heading text-sm font-semibold transition-all duration-300 sm:text-[15px];
+  }
+  .btn-primary {
+    @apply btn bg-brand-gradient text-navy shadow-glow hover:-translate-y-0.5 hover:shadow-glow-lg;
+  }
+  .btn-primary::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent;
+    animation: shimmer 2.8s infinite;
+  }
+  .btn-ghost {
+    @apply btn border border-white/25 bg-white/10 text-white backdrop-blur-md hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/20;
+  }
+  .btn-dark {
+    @apply btn bg-navy text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-800;
+  }
+  .glass {
+    @apply border border-white/15 bg-white/10 backdrop-blur-xl;
+  }
+  .glass-light {
+    @apply border border-white/60 bg-white/70 backdrop-blur-xl;
+  }
+  .card-hover {
+    @apply transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-card;
+  }
+  .input {
+    @apply w-full rounded-2xl border border-slate-200 bg-white px-5 pb-2.5 pt-6 text-[15px] text-navy outline-none transition-all duration-300 placeholder:text-transparent focus:border-brand focus:shadow-[0_0_0_4px_rgba(247,148,29,0.15)];
+  }
+  .input-label {
+    @apply pointer-events-none absolute left-5 top-4 origin-left text-[15px] text-slate-400 transition-all duration-300 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs;
+  }
+}
+
+/* Rotating conic border used on service cards */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.animated-border {
+  position: relative;
+  isolation: isolate;
+}
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle), transparent 0 60%, #f7941d 75%, #ffc857 85%, transparent 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  animation: border-spin 3.5s linear infinite;
+}
+.animated-border:hover::before {
+  opacity: 1;
+}
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.grid-pattern {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.dot-pattern {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Swiper pagination theming */
+.testimonial-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #cbd5e1;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.testimonial-swiper .swiper-pagination-bullet-active {
+  width: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f7941d, #ffc857);
+}
+.testimonial-swiper {
+  padding-bottom: 3.5rem !important;
+}
+
+/* CSS-driven hero entrance: runs before JS hydration so LCP isn't delayed */
+.hero-in {
+  animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0s);
+}
+.hero-word {
+  display: inline-block;
+  animation: hero-word 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0s);
+}
+.nav-in {
+  animation: nav-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
+}
+.preloader {
+  animation: preloader-out 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
+.preloader-bar {
+  animation: preloader-bar 0.8s ease-in-out both;
+}
+.hero-zoom {
+  animation: hero-zoom 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.15);
+  }
+  to {
+    transform: none;
+  }
+}
+.hero-rise {
+  animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes hero-rise {
+  from {
+    transform: translateY(28px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-word {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes preloader-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes preloader-bar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
